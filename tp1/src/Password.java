@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 public class Password {
     /**
@@ -39,8 +40,13 @@ public class Password {
      * @return the 6-digit number that matches, or null if no match is found
      */
     public static String bruteForce6Digit(String targetHash) {
-
-        // Code here
+        for (int i = 0; i <= 999999; i++) {
+            String stri = String.format("%06d", i);
+            String passwordTest = hashPassword(stri);
+            if (targetHash.equals(passwordTest)) {
+                return passwordTest;
+            }
+        }
 
         return null;
     }
@@ -60,9 +66,36 @@ public class Password {
      * @return true if the password is strong, false otherwise
      */
     public static boolean isStrongPassword(String password) {
+        int longueur = password.length();
 
-        // Code here
+        boolean islongenough = longueur >= 12;
+        if (! islongenough) {
+            return false;
+        }
 
+        boolean hasupper = false;
+        boolean haslower = false;
+        boolean hasnumber = false;
+        boolean haswhitespace = true;
+
+        for (int i = 0; i < longueur; i++) {
+            char lettre = password.charAt(i);
+            if (!hasupper) {
+                hasupper = Character.isUpperCase(lettre);
+            }
+            if (!haslower) {
+                haslower = Character.isLowerCase(lettre);
+            }
+            if (!hasnumber) {
+                hasnumber = Character.isDigit(lettre);
+            }
+            if (haswhitespace) {
+                haswhitespace = !Character.isWhitespace(lettre);
+            }
+        }
+        if (hasupper && haslower && hasnumber && haswhitespace) {
+            return true;
+        }
         return false;
     }
 
@@ -75,10 +108,11 @@ public class Password {
      *         true if the password is strong, false otherwise
      */
     public static HashMap<String, Boolean> checkPasswordsList(ArrayList<String> passwords) {
-
-        // Code here
-
-        return null;
+        HashMap<String, Boolean> Res = new HashMap<>();
+        for (String i: passwords){
+            Res.put(i,isStrongPassword(i));
+        }
+        return Res;
     }
 
     /**
@@ -94,11 +128,25 @@ public class Password {
      * @return A randomly generated password that meets the security criteria.
      */
     public static String generatePassword(int nbCar) {
+        /**if (nbCar <4){
+            return Erreur système ! Alerte explosion imminente !
+        }*/
+        String LettreUpper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String LettreLower = "abcdefghijklmnopqrstuvwxyz";
+        String digits = "0123456789";
+        String specialz = "@[#$)*+:;{|~?";
 
-        // Code here
+        List<Character> Liste = new ArrayList<>();
+        
+
+        for (int i=4;i<=nbCar;i++){
+            Random rand = new Random();
+            char c = ;
+            Liste.add(c);
+        }
 
         return null;
-    }
+    } 
 
     public static void main(String[] args) {
         if (args.length == 0) {
@@ -110,6 +158,7 @@ public class Password {
                 runQuestion(arg);
             }
         }
+
     }
 
     private static void runQuestion(String questionNumber) {
